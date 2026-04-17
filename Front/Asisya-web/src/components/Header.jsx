@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { authService } from '../../src/services/authService';
+import '../styles/components.css';
 
 const Header = () => {
   const [userName, setUserName] = useState('');
@@ -14,30 +15,13 @@ const Header = () => {
   };
 
   return (
-    <header style={{ 
-      backgroundColor: '#f8f9fa', 
-      padding: '10px 20px', 
-      borderBottom: '1px solid #dee2e6',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }}>
-      <div>
-        <h3 style={{ margin: 0, color: '#495057' }}>Asisya - Inventario</h3>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-        <span style={{ color: '#6c757d' }}>Bienvenido, {userName}</span>
+    <header className="header">
+      <h3 className="header__title">Asisya - Inventario</h3>
+      <div className="header__user-section">
+        <span className="header__welcome-text">Bienvenido, {userName}</span>
         <button 
+          className="header__logout-btn"
           onClick={handleLogout}
-          style={{ 
-            backgroundColor: '#dc3545', 
-            color: 'white', 
-            border: 'none', 
-            padding: '8px 16px', 
-            borderRadius: '4px', 
-            cursor: 'pointer',
-            fontSize: '14px'
-          }}
         >
           Cerrar Sesión
         </button>

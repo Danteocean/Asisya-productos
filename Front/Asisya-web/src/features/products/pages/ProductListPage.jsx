@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { productService } from '../../../services/productService';
 import { useNavigate } from 'react-router-dom';
+import '../../../styles/components.css';
 
 const ProductListPage = () => {
     const [products, setProducts] = useState([]);
@@ -137,28 +138,26 @@ const ProductListPage = () => {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>Inventario de Autopartes</h2>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h2>Inventario de Autopartes</h2>
-
+        <div className="product-list-page">
+            <div className="product-list-page__header">
+                <h2 className="product-list-page__title">Inventario de Autopartes</h2>
                 <button
+                    className="product-list-page__new-btn"
                     onClick={() => navigate('/products/new')}
-                    style={{ backgroundColor: '#007bff', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
                 >
                     + Nuevo Producto
                 </button>
             </div>
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+            <div className="product-list-page__filters">
                 <input
+                    className="product-list-page__search-input"
                     type="text"
                     placeholder="Buscar por nombre..."
                     value={filters.search}
                     onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                 />
-
                 <select
+                    className="product-list-page__category-select"
                     onChange={(e) => setFilters({ ...filters, categoryId: e.target.value ? parseInt(e.target.value) : null, pageNumber: 1 })}
                 >
                     <option value="">Todas las Categorías</option>
@@ -166,32 +165,28 @@ const ProductListPage = () => {
                         <option key={c.categoryId} value={c.categoryId}>{c.categoryName}</option>
                     ))}
                 </select>
-
-                <button onClick={() => { setFilters({ ...filters, pageNumber: 1 }); fetchProducts(); }}>
+                <button className="product-list-page__search-btn" onClick={() => { setFilters({ ...filters, pageNumber: 1 }); fetchProducts(); }}>
                     Buscar
                 </button>
-
                 <input
+                    className="product-list-page__bulk-input"
                     type="number"
                     placeholder="Cantidad a generar..."
                     value={bulkCount}
                     onChange={(e) => setBulkCount(e.target.value)}
                     min="1"
-                    style={{ width: '150px' }}
                 />
-
                 <button 
+                    className={bulkLoading ? "product-list-page__bulk-btn product-list-page__bulk-btn--loading" : "product-list-page__bulk-btn"}
                     onClick={handleBulkInsert}
                     disabled={bulkLoading}
-                    style={{ backgroundColor: '#28a745', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: bulkLoading ? 'not-allowed' : 'pointer', opacity: bulkLoading ? 0.6 : 1 }}
                 >
                     {bulkLoading ? 'Cargando...' : 'Cargar Masivamente'}
                 </button>
             </div>
-
             {/* TABLA */}
-            <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead style={{ backgroundColor: '#eee' }}>
+            <table className="product-list-page__table">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
@@ -206,7 +201,6 @@ const ProductListPage = () => {
                         <tr><td colSpan="6">Cargando datos...</td></tr>
                     ) : (
                         products.map(p => (
-
                             <tr key={p.productId}>
                                 <td>{p.productId}</td>
                                 <td>{p.productName}</td>
@@ -215,12 +209,11 @@ const ProductListPage = () => {
                                 <td>{p.unitsInStock}</td>
                                 <td>
                                     {/* Para editar, usaremos el objeto 'p' que ya tenemos en memoria */}
-                                    <button onClick={() => {
+                                    <button className="product-list-page__edit-btn" onClick={() => {
                                         // 1. Buscamos el ID de la categoría basándonos en el nombre que sí tenemos en la tabla
                                         const foundCategory = categories.find(c => c.categoryName === p.categoryName);
                                         // 2. Buscamos el ID del proveedor basándonos en el nombre (si lo tienes en la tabla, si no, usa el que venga)
                                         const foundSupplier = suppliers.find(s => s.companyName === p.companyName);
-
                                         // 3. Creamos un objeto "reforzado" con los IDs encontrados
                                         const productWithIds = {
                                             ...p,
@@ -228,9 +221,7 @@ const ProductListPage = () => {
                                             supplierId: p.supplierId || foundSupplier?.supplierId || foundSupplier?.supplierid,
                                             quantityPerUnit: p.quantityPerUnit || p.QuantityPerUnit || p.quantityperunit || '' // Aseguramos que este campo también esté presente
                                         };
-
                                         console.log("Objeto enviado con IDs recuperados:", productWithIds);
-
                                         navigate(`/products/edit/${p.productId}`, {
                                             state: {
                                                 product: productWithIds,
@@ -241,12 +232,9 @@ const ProductListPage = () => {
                                     }}>
                                         Editar
                                     </button>
-
-
-
                                     <button
+                                        className="product-list-page__deactivate-btn"
                                         onClick={() => handleDeactivate(p.productId)}
-                                        style={{ marginLeft: '10px', color: 'red' }}
                                     >
                                         Desactivar
                                     </button>
@@ -256,12 +244,11 @@ const ProductListPage = () => {
                     )}
                 </tbody>
             </table>
-
             {/* PAGINACIÓN */}
-            <div style={{ marginTop: '10px' }}>
-                <button disabled={filters.pageNumber === 1} onClick={() => setFilters({ ...filters, pageNumber: filters.pageNumber - 1 })}>Anterior</button>
-                <span style={{ margin: '0 10px' }}>Página {filters.pageNumber}</span>
-                <button disabled={products.length < filters.pageSize} onClick={() => setFilters({ ...filters, pageNumber: filters.pageNumber + 1 })}>Siguiente</button>
+            <div className="product-list-page__pagination">
+                <button className="product-list-page__pagination-btn" disabled={filters.pageNumber === 1} onClick={() => setFilters({ ...filters, pageNumber: filters.pageNumber - 1 })}>Anterior</button>
+                <span className="product-list-page__page-info">Página {filters.pageNumber}</span>
+                <button className="product-list-page__pagination-btn" disabled={products.length < filters.pageSize} onClick={() => setFilters({ ...filters, pageNumber: filters.pageNumber + 1 })}>Siguiente</button>
             </div>
         </div>
     );

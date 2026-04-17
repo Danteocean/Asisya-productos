@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { authService } from '../../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import '../../../styles/components.css';
 
 const LoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -23,25 +24,24 @@ const onSubmit = async (data) => {
 };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '100px auto', padding: '20px', border: '1px solid #ccc' }}>
-      <h2>Login Asisya</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Usuario</label>
-          <input {...register("username", { required: "El usuario es obligatorio" })} />
-          {errors.username && <p style={{color: 'red'}}>{errors.username.message}</p>}
-        </div>
-        
-        <div style={{ marginTop: '10px' }}>
-          <label>Contraseña</label>
-          <input type="password" {...register("password", { required: "La clave es obligatoria" })} />
-          {errors.password && <p style={{color: 'red'}}>{errors.password.message}</p>}
-        </div>
-
-        {serverError && <p style={{color: 'orange'}}>{serverError}</p>}
-
-        <button type="submit" style={{ marginTop: '20px', width: '100%' }}>Entrar</button>
-      </form>
+    <div className="login-page">
+      <div className="login-page__container">
+        <h2 className="login-page__title">Login Asisya</h2>
+        <form className="login-page__form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="login-page__input-group">
+            <label className="login-page__label">Usuario</label>
+            <input className="login-page__input" {...register("username", { required: "El usuario es obligatorio" })} />
+            {errors.username && <p className="login-page__error">{errors.username.message}</p>}
+          </div>
+          <div className="login-page__input-group">
+            <label className="login-page__label">Contraseña</label>
+            <input className="login-page__input" type="password" {...register("password", { required: "La clave es obligatoria" })} />
+            {errors.password && <p className="login-page__error">{errors.password.message}</p>}
+          </div>
+          {serverError && <p className="login-page__server-error">{serverError}</p>}
+          <button className="login-page__button" type="submit">Entrar</button>
+        </form>
+      </div>
     </div>
   );
 };

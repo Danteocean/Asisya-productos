@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { productService } from '../../../services/productService';
+import '../../../styles/components.css';
 
 const ProductFormPage = () => {
   const { id } = useParams();
@@ -126,115 +127,110 @@ const ProductFormPage = () => {
   };
 
   return (
-    <div style={{ padding: '30px', maxWidth: '800px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <h2>{isEdit ? "Editar Autoparte" : "Nueva Autoparte"}</h2>
-        <button type="button" onClick={() => navigate('/products')} style={{ padding: '8px 15px', cursor: 'pointer' }}>
+    <div className="product-form-page">
+      <div className="product-form-page__header">
+        <h2 className="product-form-page__title">{isEdit ? 'Editar Autoparte' : 'Nueva Autoparte'}</h2>
+        <button type="button" className="product-form-page__back-btn" onClick={() => navigate('/products')}>
           ← Volver a Productos
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div style={{ gridColumn: 'span 2' }}>
-          <label>Nombre</label>
+      {loadError && <div className="product-form-page__error-message">{loadError}</div>}
+
+      <form className="product-form-page__form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="product-form-page__field product-form-page__field--full-width">
+          <label className="product-form-page__label">Nombre</label>
           <input
+            className="product-form-page__input"
             {...register('productName', { required: 'El nombre es obligatorio' })}
-            style={{ width: '100%', padding: '8px' }}
           />
-          {errors.productName && <span style={{ color: 'red' }}>{errors.productName.message}</span>}
+          {errors.productName && <span className="product-form-page__field-error">{errors.productName.message}</span>}
         </div>
 
-        <div>
-          <label>Categoría</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Categoría</label>
           <select
+            className="product-form-page__select"
             {...register('categoryId', { required: 'La categoría es obligatoria' })}
-            style={{ width: '100%', padding: '8px' }}
           >
             <option value="">Seleccione...</option>
             {categories.map((c) => (
               <option key={c.categoryId} value={String(c.categoryId)}>{c.categoryName}</option>
             ))}
           </select>
-          {errors.categoryId && <span style={{ color: 'red' }}>{errors.categoryId.message}</span>}
+          {errors.categoryId && <span className="product-form-page__field-error">{errors.categoryId.message}</span>}
         </div>
 
-        <div>
-          <label>Proveedor</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Proveedor</label>
           <select
+            className="product-form-page__select"
             {...register('supplierId', { required: 'El proveedor es obligatorio' })}
-            style={{ width: '100%', padding: '8px' }}
           >
             <option value="">Seleccione...</option>
             {suppliers.map((s) => (
               <option key={s.supplierId} value={String(s.supplierId)}>{s.companyName}</option>
             ))}
           </select>
-          {errors.supplierId && <span style={{ color: 'red' }}>{errors.supplierId.message}</span>}
+          {errors.supplierId && <span className="product-form-page__field-error">{errors.supplierId.message}</span>}
         </div>
 
-        <div>
-          <label>Cantidad por Unidad</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Cantidad por Unidad</label>
           <input
+            className="product-form-page__input"
             {...register('quantityPerUnit', { required: 'La cantidad por unidad es obligatoria' })}
-            style={{ width: '100%', padding: '8px' }}
           />
-          {errors.quantityPerUnit && <span style={{ color: 'red' }}>{errors.quantityPerUnit.message}</span>}
+          {errors.quantityPerUnit && <span className="product-form-page__field-error">{errors.quantityPerUnit.message}</span>}
         </div>
 
-        <div>
-          <label>Precio Unitario</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Precio Unitario</label>
           <input
+            className="product-form-page__input"
             type="number"
             step="0.0001"
             {...register('unitPrice', { required: 'El precio unitario es obligatorio' })}
-            style={{ width: '100%', padding: '8px' }}
           />
-          {errors.unitPrice && <span style={{ color: 'red' }}>{errors.unitPrice.message}</span>}
+          {errors.unitPrice && <span className="product-form-page__field-error">{errors.unitPrice.message}</span>}
         </div>
 
-        <div>
-          <label>Stock</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Stock</label>
           <input
+            className="product-form-page__input"
             type="number"
             {...register('unitsInStock', { required: 'El stock es obligatorio' })}
-            style={{ width: '100%', padding: '8px' }}
           />
-          {errors.unitsInStock && <span style={{ color: 'red' }}>{errors.unitsInStock.message}</span>}
+          {errors.unitsInStock && <span className="product-form-page__field-error">{errors.unitsInStock.message}</span>}
         </div>
 
-        <div>
-          <label>Nivel Reorden</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Nivel Reorden</label>
           <input
+            className="product-form-page__input"
             type="number"
             {...register('reorderLevel', { required: 'El nivel de reorden es obligatorio' })}
-            style={{ width: '100%', padding: '8px' }}
           />
-          {errors.reorderLevel && <span style={{ color: 'red' }}>{errors.reorderLevel.message}</span>}
+          {errors.reorderLevel && <span className="product-form-page__field-error">{errors.reorderLevel.message}</span>}
         </div>
 
-        <div>
-          <label>Estado</label>
+        <div className="product-form-page__field">
+          <label className="product-form-page__label">Estado</label>
           <select
+            className="product-form-page__select"
             {...register('discontinued', { required: 'El estado es obligatorio' })}
-            style={{ width: '100%', padding: '8px' }}
           >
             <option value="false">Activo</option>
             <option value="true">Discontinuado</option>
           </select>
-          {errors.discontinued && <span style={{ color: 'red' }}>{errors.discontinued.message}</span>}
+          {errors.discontinued && <span className="product-form-page__field-error">{errors.discontinued.message}</span>}
         </div>
 
         <button
+          className={`product-form-page__submit-btn ${submitLoading ? 'product-form-page__submit-btn--loading' : ''}`}
           type="submit"
           disabled={submitLoading}
-          style={{
-            gridColumn: 'span 2',
-            padding: '15px',
-            backgroundColor: '#28a745',
-            color: 'white',
-            fontWeight: 'bold',
-            cursor: submitLoading ? 'not-allowed' : 'pointer'
-          }}
         >
           {submitLoading ? 'Guardando...' : isEdit ? 'ACTUALIZAR DATOS' : 'GUARDAR PRODUCTO'}
         </button>
