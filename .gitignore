@@ -1,0 +1,48 @@
+# === [ NODE / FRONTEND ] ===
+# Dependencias
+node_modules/
+.pnpm-store/
+jspm_packages/
+
+# Carpetas de construcción (Build)
+dist/
+build/
+.svelte-kit/
+.next/
+out/
+
+# Logs y Cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+.stylelintcache
+.vite
+.parcel-cache
+
+# === [ .NET / C# / BACKEND ] ===
+# Binarios y carpetas de salida
+bin/
+obj/
+publish/
+
+# Archivos de configuración de usuario de Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de configuración de Rider / IntelliJ
+.idea/
+*.sln.iml
+
+
+# Variables de entorno (SECRETOS)
+.env
+.env.local
+.env.production
+.env.development
+
+# Archivos temporales
+*.tmp
+*.temp

@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    container_name: Asisya_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: Asisya
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+    networks:
+      - goodnet
+
+  api:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    container_name: asisya_api
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=Asisya;Username=postgres;Password=admin123"
+    networks:
+      - goodnet
+
+  front:
+    build:
+      context: ./Front/Asisya-web 
+      dockerfile: Dockerfile
+    container_name: asisya_front
+    restart: always
+    ports:
+      - "3000:80"
+    networks:
+      - goodnet
+
+networks:
+  goodnet:
+
+volumes:
+  pgdata:
