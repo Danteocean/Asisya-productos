@@ -11,7 +11,6 @@ const ProductFormPage = () => {
 
   const [categories, setCategories] = useState(state?.categories || []);
   const [suppliers, setSuppliers] = useState(state?.suppliers || []);
-  const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(isEdit);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [loadError, setLoadError] = useState('');
@@ -42,9 +41,7 @@ const ProductFormPage = () => {
       } catch (error) {
         console.error('Error cargando catálogos', error);
         setLoadError('No se pudieron cargar las categorías y proveedores.');
-      } finally {
-        setLoadingCategories(false);
-      }
+      } 
     };
 
     loadCatalogs();
@@ -132,7 +129,6 @@ const ProductFormPage = () => {
     <div style={{ padding: '30px', maxWidth: '800px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <h2>{isEdit ? "Editar Autoparte" : "Nueva Autoparte"}</h2>
-        {/* BOTÓN PARA VOLVER */}
         <button type="button" onClick={() => navigate('/products')} style={{ padding: '8px 15px', cursor: 'pointer' }}>
           ← Volver a Productos
         </button>

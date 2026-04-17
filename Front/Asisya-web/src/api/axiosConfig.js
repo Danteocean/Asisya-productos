@@ -7,7 +7,6 @@ const api = axios.create({
   }
 });
 
-// Interceptor para inyectar el token en cada petición
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -16,7 +15,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Interceptor para manejar errores 401 (token expirado)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -24,7 +22,6 @@ api.interceptors.response.use(
       // Limpiar datos de sesión
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      // Redirigir a login
       window.location.href = '/login';
     }
     return Promise.reject(error);

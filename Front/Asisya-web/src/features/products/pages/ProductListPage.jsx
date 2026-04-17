@@ -12,10 +12,10 @@ const ProductListPage = () => {
 
     const navigate = useNavigate();
 
-    // Estado alineado con tu DTO de búsqueda
+    
     const [filters, setFilters] = useState({
-        search: "",      // Texto para el tsvector
-        categoryId: null, // Filtro por categoría
+        search: "",      
+        categoryId: null, 
         pageNumber: 1,
         pageSize: 10
     });
@@ -27,7 +27,7 @@ const ProductListPage = () => {
 
     useEffect(() => {
         fetchProducts();
-    }, [filters.pageNumber, filters.categoryId]); // Se dispara al cambiar página o combo
+    }, [filters.pageNumber, filters.categoryId]); 
 
     const loadSuppliers = async () => {
         try {
@@ -46,7 +46,6 @@ const ProductListPage = () => {
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            // Limpiamos los filtros antes de enviar
             const cleanFilters = {
                 ...filters,
                 // Si search es un string vacío o solo espacios, enviamos null
@@ -65,8 +64,7 @@ const ProductListPage = () => {
         }
     };
 
-    const handleDeactivate = async (id) => {
-        // 1. Extraemos solo el ID del empleado (ej: employeeId) para que el API lo reciba bien
+    const handleDeactivate = async (id) => {     
         const user = JSON.parse(localStorage.getItem('user') || '{}');
 
         const des = {
@@ -74,7 +72,7 @@ const ProductListPage = () => {
             updatedBy: parseInt(user.employeeId || 0)
         };
 
-        // 2. El bloque IF debe envolver la llamada al servicio
+       
         if (window.confirm("¿Desea desactivar este producto?")) {
             try {
                 const res = await productService.updateDesactivación(des);
@@ -106,7 +104,7 @@ const ProductListPage = () => {
             return;
         }
 
-        // Obtener el usuario desde localStorage
+       
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         const createdBy = parseInt(user.employeeId || 0);
 
@@ -152,8 +150,6 @@ const ProductListPage = () => {
                     + Nuevo Producto
                 </button>
             </div>
-
-            {/* FILTROS Y BUSQUEDA */}
             <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
                 <input
                     type="text"

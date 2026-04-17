@@ -13,7 +13,6 @@ const onSubmit = async (data) => {
     try {
         const result = await authService.login(data.username, data.password);
         if (result.succeeded) {
-            // ¡ESTA ES LA CLAVE!
             navigate('/products', { replace: true });
         } else {
             setServerError(result.message);
